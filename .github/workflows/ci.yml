@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -37,3 +38,19 @@ jobs:
           echo "CI Pipeline completed successfully."
           echo "Build timestamp:"
           date
+
+      - name: Slack Success Notification
+        if: success()
+        run: |
+          curl -X POST \
+          -H 'Content-type: application/json' \
+          --data '{"text":"✅ CI Pipeline Successful! Repository: devops-webapp"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Slack Failure Notification
+        if: failure()
+        run: |
+          curl -X POST \
+          -H 'Content-type: application/json' \
+          --data '{"text":"❌ CI Pipeline Failed! Repository: devops-webapp"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}

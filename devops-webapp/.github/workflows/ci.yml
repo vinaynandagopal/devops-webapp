@@ -15,7 +15,7 @@ jobs:
 
       - name: Verify Files
         run: |
-          echo "Checking project files..."
+          echo "Checking project files for DevOps VLE..."
           ls -la
 
       - name: Build Project
